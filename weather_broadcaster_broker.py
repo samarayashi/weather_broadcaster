@@ -1,32 +1,38 @@
 from os import path
 import logging
-import time
+from time import sleep
 
-from weather_station import WeatherStation
-from line_notification import notify
+from utils import get_json_content
+from weather_broadcaster import WeatherBroadcaster
+from model import get_notification_model
 
 
 logger = logging.getLogger(__name__)
 CURRENT_PATH = path.dirname(path.abspath(__file__))
 HOUR = 60 * 60
-users_data = [{
-    "owm_api_key": "747f8dc657f2dbe2909e9cfc6e554669",
-    "line_token": "eAop04vpYNyNY9FYSNhlZMOoLZkf5O6evz879oApZWF",
-    "longitude": 121.5172,
-    "latitude": 23.0472
-}]
 
 
 def main():
+    user_data = get_json_content(path.join(CURRENT_PATH, 'user_data.json'))
+    weather_broadcaster = WeatherBroadcaster(
+        owm_api_key=user_data.get('owm_api_key'))
+    for user, user_info in user_data['users'].items():
+        try:
+            model = get_notification_model(user_info.get('model_type'))
+            model(weather_broadcaster, user_info)
+        except Exception as err:
+            logger.error('fail with model {} error: {}'.format(
+                user_info.get('model_type'), err))
     while True:
-        for user_data in users_data:
-            weather_station = WeatherStation(user_data.get('owm_api_key'))
-            weather_data = weather_station.get_data_by_coord(
-                user_data.get('longitude', 0), user_data.get('latitude', 0)
-            )
-            status_code = notify(user_data.get('line_token'), weather_data)
-            print(status_code)
-        time.sleep(HOUR)
+        try:
+            weather_broadcaster.notify()
+            sleep(HOUR)
+        except KeyboardInterrupt:
+            logger.warning('keyboard interrupt\n')
+            break
+        except Exception as e:
+            logger.error('main exception: {}'.format(e))
+            break
 
 
 if __name__ == '__main__':
