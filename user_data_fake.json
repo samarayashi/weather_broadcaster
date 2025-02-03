@@ -1,19 +1,16 @@
 {
-    "owm_api_key": "747f8dc657f2dbe2909e9cfc6e554669",
-    "users": {
         "Home": {
             "user": "Home",
             "model_type": "PremiumModelNotification",
-            "line_token": "eAop04vpYNyNY9FYSNhlZMOoLZkf5O6evz879oApZWF",
+            "line_token": "line token from user",
             "longitude": 121.5681,
             "latitude": 24.9828
         },
         "NTU": {
             "user": "NTU",
             "model_type": "GeneralModelNotification",
-            "line_token": "eAop04vpYNyNY9FYSNhlZMOoLZkf5O6evz879oApZWF",
+            "line_token": "line token from user",
             "longitude": 121.5320,
             "latitude": 25.0148
         }
-    }
 }
