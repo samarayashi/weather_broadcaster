@@ -20,8 +20,8 @@ def commom_message_formatter(msg):
 
 
 class GeneralModelNotification(LineNotification):
-    def __init__(self, user_data):
-        super().__init__(line_token=user_data.get('line_token'))
+    def __init__(self, channel_token, user_data):
+        super().__init__(channel_token)
         self.user_data = user_data
         
     def _complete_message(self, msg):
@@ -33,16 +33,15 @@ class GeneralModelNotification(LineNotification):
     def notify(self, msg):
         logger.info('user: {} GeneralModel notify message: {}'.format(
             self.user_data.get('user', 'NAME_IS_NEEDED'), self._complete_message(msg)))
-        return super().notify(self._complete_message(msg))
-
-
+        return super().notify(self.user_data['user_id'],
+            self._complete_message(msg))
 
 
 class PremiumModelNotification(LineNotification):
-    def __init__(self, user_data):
+    def __init__(self, channel_token, user_data):
+        super().__init__(channel_token)
         self.user_data = user_data
-        super().__init__(line_token=user_data.get('line_token'))
-
+        
     def _complete_message(self, msg):
         return str({
             'user': self.user_data.get('user', 'Null'),
@@ -52,6 +51,7 @@ class PremiumModelNotification(LineNotification):
         })
 
     def notify(self, msg):
-        logger.info('user: {} PremiumModel notify message: {}'.format(
+        logger.info('user: {} GeneralModel notify message: {}'.format(
             self.user_data.get('user', 'NAME_IS_NEEDED'), self._complete_message(msg)))
-        return super().notify(self._complete_message(msg))
+        return super().notify(self.user_data['user_id'],
+            self._complete_message(msg))

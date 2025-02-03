@@ -16,6 +16,7 @@ HOUR = 60 * 60
 # 加載 .env 文件，讀取環境變數
 load_dotenv()
 OWM_API_KEY = getenv("OWM_API_KEY")
+LINE_CHANNEL_TOKEN = getenv("LINE_CHANNEL_ACCESS_TOKEN")
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
     for user, user_info in user_data.items():
         try:
             model = get_notification_model(user_info['model_type'])
-            observer = model(user_info)
+            observer = model(LINE_CHANNEL_TOKEN, user_info)
             logger.info('user: {} register'.format(user))
             weather_broadcaster.register_observer(observer)
         except Exception as err:

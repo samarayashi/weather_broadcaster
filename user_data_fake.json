@@ -1,16 +1,16 @@
 {
-        "Home": {
-            "user": "Home",
-            "model_type": "PremiumModelNotification",
-            "line_token": "line token from user",
-            "longitude": 121.5681,
-            "latitude": 24.9828
-        },
-        "NTU": {
-            "user": "NTU",
-            "model_type": "GeneralModelNotification",
-            "line_token": "line token from user",
-            "longitude": 121.5320,
-            "latitude": 25.0148
-        }
+    "Home": {
+        "user": "Home",
+        "user_id": "target_user_id",
+        "model_type": "PremiumModelNotification",
+        "longitude": 121.5681,
+        "latitude": 24.9828
+    },
+    "NTU": {
+        "user": "NTU",
+        "user_id": "target_user_id",
+        "model_type": "GeneralModelNotification",
+        "longitude": 121.5320,
+        "latitude": 25.0148
+    }
 }

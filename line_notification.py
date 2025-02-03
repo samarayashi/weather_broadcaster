@@ -1,13 +1,35 @@
 import requests
-class LineNotification():
-    LINE_URL = 'https://notify-api.line.me/api/notify'
 
-    def __init__(self, line_token):
-        self._line_token = line_token
+class LineNotification:
+    LINE_API_URL = "https://api.line.me/v2/bot/message/push"
 
-    def notify(self, msg):
-        headers = {'Authorization': 'Bearer ' + self._line_token}
-        payload = {'message': str(msg)}
-        response = requests.post(
-            self.LINE_URL, headers=headers, params=payload)
-        return response.status_code
+    def __init__(self, channel_token):
+        """
+        初始化 LINE Messaging API 通知工具
+
+        :param line_token: LINE Channel Access Token
+        :param user_id: 接收訊息的使用者 ID
+        """
+        self._line_token = channel_token
+
+    def notify(self, user_id, msg):
+        """
+        發送訊息到 LINE
+
+        :param msg: 要發送的訊息內容
+        :return: LINE API 的回應狀態碼與回應數據
+        """
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self._line_token}",
+        }
+
+        payload = {
+            "to": user_id,
+            "messages": [
+                {"type": "text", "text": msg}
+            ],
+        }
+
+        response = requests.post(self.LINE_API_URL, headers=headers, json=payload)
+        return response.status_code, response.json()
