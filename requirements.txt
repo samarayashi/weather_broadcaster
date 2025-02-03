@@ -1,0 +1,10 @@
+certifi==2025.1.31
+charset-normalizer==3.4.1
+geojson==2.5.0
+idna==3.10
+pyowm==3.3.0
+PySocks==1.7.1
+python-dotenv==1.0.1
+requests==2.32.3
+setuptools==75.8.0
+urllib3==2.3.0
